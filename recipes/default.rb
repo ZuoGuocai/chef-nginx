@@ -25,6 +25,7 @@ if node[:platform_family] == 'rhel'
   end
 
   package 'nginx' do
+    version node[:nginx][:version]
   end
 
   # Clean up distrib examples. Move default site
