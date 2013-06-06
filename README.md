@@ -26,8 +26,8 @@ Example: $cookbook/templates/defaults/nginx/vhosts/www.example.com.conf.erb
 
 Use the following LWRP
 
-  nginx_vhost 'www.example.com' do
-  end
+    nginx_vhost 'www.example.com' do
+    end
 
 Creates the document root, adds the vhost configuration under /etc/nginx/vhosts.d/www.example.com.conf then reloads Nginx.
 
