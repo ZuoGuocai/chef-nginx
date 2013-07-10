@@ -19,11 +19,17 @@
 if node[:platform_family] == 'rhel'
   include_recipe 'yum'
 
+<<<<<<< HEAD
   yum_repository 'failshell' do
     name 'failshell'
     description 'Packages built by Jean-Francois Theroux'
     url 'http://static.theroux.ca/repository/el/6/$basearch'
     only_if { node[:nginx][:configure][:repo] == true }
+=======
+  yum_repository 'nginx' do
+    description 'nginx'
+    url "http://nginx.org/packages/centos/6/#{node[:kernel][:machine]}/"
+>>>>>>> 49cf256a8c5abf1758b12311294289d3502b6e59
   end
 
   package 'nginx' do
@@ -71,10 +77,13 @@ if node[:platform_family] == 'rhel'
     action [ :start, :enable ]
   end
 
+<<<<<<< HEAD
   if node[:nginx][:modsecurity][:enable] == true
     include_recipe 'nginx::modsecurity'
   end
 
+=======
+>>>>>>> 49cf256a8c5abf1758b12311294289d3502b6e59
 else
   log('Your distribution is not supported.')
 end

@@ -5,6 +5,7 @@ server {
   location / {
     root        /usr/share/nginx/html;
     index       index.html index.htm;
+<<<<<<< HEAD
 
     <% if node[:nginx][:modsecurity][:enable] == true %>
     # modsecurity
@@ -15,6 +16,8 @@ server {
 
   location = /favicon.ico {
     return 204;
+=======
+>>>>>>> 49cf256a8c5abf1758b12311294289d3502b6e59
   }
 
   error_page    500 502 503 504 /50x.html;
