@@ -3,6 +3,10 @@ nginx Cookbook
 
 Manages Nginx on RHEL/Centos.
 
+Provides:
+  * Nginx 1.4.1
+  * Modsecurity 2.7.5
+
 Requirements
 ------------
 
