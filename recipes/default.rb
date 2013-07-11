@@ -46,6 +46,7 @@ if node[:platform_family] == 'rhel'
 
   template '/etc/nginx/nginx.conf' do
     mode 0644
+    notifies :restart, 'service[nginx]'
   end
 
   # Doc root
@@ -71,9 +72,6 @@ if node[:platform_family] == 'rhel'
     action [ :start, :enable ]
   end
 
-  if node[:nginx][:modsecurity][:enable] == true
-    include_recipe 'nginx::modsecurity'
-  end
 else
   log('Your distribution is not supported.')
 end

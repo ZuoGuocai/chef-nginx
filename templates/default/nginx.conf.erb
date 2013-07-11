@@ -29,5 +29,8 @@ http {
   include             /etc/nginx/conf.d/*.conf;
   # Vhosts
   include             /etc/nginx/vhosts.d/*.conf;
+  <% if node[:nginx][:modsecurity][:crs][:enable] == true %>
+  # modsecurity - CRS - https://github.com/SpiderLabs/owasp-modsecurity-crs
+  #include             /etc/nginx/modsecurity.d/modsecurity_crs_10_setup.conf;
+  <% end %>
 }
-

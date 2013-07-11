@@ -7,6 +7,15 @@ Provides:
   * Nginx 1.4.1
   * Modsecurity 2.7.5
 
+Warning
+-------
+
+Modsecurity for Nginx is in a very early stage as it is right now. Configs can only be loaded from /etc/nginx/modsecurity.conf,
+as it seems to be the only file that understand's Apache configuration format.
+
+So, to actually load rules from [CRS](https://github.com/SpiderLabs/owasp-modsecurity-crs), you have to copy them manually in
+/etc/nginx/modsecurity.conf.
+
 Requirements
 ------------
 
@@ -45,7 +54,8 @@ Contributing
 5. Run the tests, ensuring they all pass
 6. Submit a Pull Request using Github
 
-License and Authors
--------------------
-Authors: Jean-Francois Theroux <failshell@gmail.com>
+License and Author
+------------------
+Author: Jean-Francois Theroux <failshell@gmail.com>
+
 License: Apache 2.0
