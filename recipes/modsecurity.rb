@@ -61,11 +61,15 @@ git '/etc/nginx/modsecurity.d' do
 end
 
 # Use all base rules
-Dir.entries('/etc/nginx/modsecurity.d/base_rules/').each do |f|
-  link "/etc/nginx/modsecurity.d/activated_rules/#{f}" do
-    to "/etc/nginx/modsecurity.d/base_rules/#{f}"
-    notifies :restart, 'service[nginx]'
-    only_if { f =~ /\.(conf|data)$/ }
+ruby_block 'symlink all base rules' do
+  block do
+    Dir.entries('/etc/nginx/modsecurity.d/base_rules/').each do |f|
+      link "/etc/nginx/modsecurity.d/activated_rules/#{f}" do
+        to "/etc/nginx/modsecurity.d/base_rules/#{f}"
+        notifies :restart, 'service[nginx]'
+        only_if { f =~ /\.(conf|data)$/ }
+      end
+    end
   end
 end
 
