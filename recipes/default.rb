@@ -42,6 +42,7 @@ if node[:platform_family] == 'rhel'
 
   # Vhosts directory
   directory '/etc/nginx/vhosts.d' do
+    mode 0750
   end
 
   template '/etc/nginx/nginx.conf' do
@@ -57,6 +58,7 @@ if node[:platform_family] == 'rhel'
 
   # SSL
   directory '/etc/nginx/ssl' do
+    mode 0750
   end
 
   # Default vhost
@@ -70,6 +72,10 @@ if node[:platform_family] == 'rhel'
 
   service 'nginx' do
     action [ :start, :enable ]
+  end
+
+  if node[:nginx][:modsecurity][:crs][:enable] == true
+    include_recipe 'nginx::modsecurity'
   end
 
 else

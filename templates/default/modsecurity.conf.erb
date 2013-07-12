@@ -131,25 +131,25 @@ SecDataDir <%= node[:nginx][:modsecurity][:SecDataDir] %>
 # location must be private to ModSecurity. You don't want other users on
 # the server to access the files, do you?
 #
-#SecUploadDir /opt/modsecurity/var/upload/
+SecUploadDir <%= node[:nginx][:modsecurity][:SecUploadDir] %>
 
 # By default, only keep the files that were determined to be unusual
 # in some way (by an external inspection script). For this to work you
 # will also need at least one file inspection rule.
 #
-#SecUploadKeepFiles RelevantOnly
+SecUploadKeepFiles RelevantOnly
 
 # Uploaded files are by default created with permissions that do not allow
 # any other user to access them. You may need to relax that if you want to
 # interface ModSecurity to an external program (e.g., an anti-virus).
 #
-#SecUploadFileMode 0600
+SecUploadFileMode 0600
 
 # The default debug log configuration is to duplicate the error, warning
 # and notice messages from the error log.
 #
-#SecDebugLog /opt/modsecurity/var/log/debug.log
-#SecDebugLogLevel 3
+SecDebugLog <%= node[:nginx][:modsecurity][:SecDebugLog] %>
+SecDebugLogLevel <%= node[:nginx][:modsecurity][:SecDebugLogLevel] %>
 
 # Log the transactions that are marked by a rule, as well as those that
 # trigger a server error (determined by a 5xx or 4xx, excluding 404,
@@ -168,7 +168,7 @@ SecAuditLogType <%= node[:nginx][:modsecurity][:SecAuditLogType] %>
 SecAuditLog <%= node[:nginx][:modsecurity][:SecAuditLog] %>
 
 # Specify the path for concurrent audit logging.
-#SecAuditLogStorageDir /opt/modsecurity/var/audit/
+SecAuditLogStorageDir <%= node[:nginx][:modsecurity][:SecAuditLogStorageDir] %>
 
 # Use the most commonly used application/x-www-form-urlencoded parameter
 # separator. There's probably only one application somewhere that uses
@@ -189,3 +189,9 @@ SecCookieFormat 0
 #
 #SecUnicodeCodePage 20127
 #SecUnicodeMapFile unicode.mapping
+
+<% if node[:nginx][:modsecurity][:crs][:enable] == true %>
+# CRS rules and config
+Include /etc/nginx/modsecurity.d/modsecurity_crs_10_setup.conf
+IncludeOptional /etc/nginx/modsecurity.d/activated_rules/*.conf
+<% end %>

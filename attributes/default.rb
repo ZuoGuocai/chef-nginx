@@ -25,5 +25,19 @@ default[:nginx][:modsecurity][:SecTmpDir] = '/tmp/nginx/'
 default[:nginx][:modsecurity][:SecDataDir] = '/tmp/nginx/'
 default[:nginx][:modsecurity][:SecAuditEngine] = 'RelevantOnly'
 default[:nginx][:modsecurity][:SecAuditLogParts] = 'ABIJDEFHZ'
-default[:nginx][:modsecurity][:SecAuditLogType] = 'Serial'
+default[:nginx][:modsecurity][:SecAuditLogType] = 'Concurrent'
 default[:nginx][:modsecurity][:SecAuditLog] = '/var/log/nginx/modsec_audit.log'
+default[:nginx][:modsecurity][:SecDebugLog] = '/var/log/nginx/modsec_debug.log'
+default[:nginx][:modsecurity][:SecDebugLogLevel] = 0
+default[:nginx][:modsecurity][:SecUploadDir] = '/var/lib/modsecurity/upload'
+default[:nginx][:modsecurity][:SecAuditLogStorageDir] = '/var/lib/modsecurity/audit'
+
+# modsecurity - CRS
+default[:nginx][:modsecurity][:crs][:enable] = true
+default[:nginx][:modsecurity][:crs][:repo] = 'https://github.com/SpiderLabs/owasp-modsecurity-crs.git'
+default[:nginx][:modsecurity][:crs][:version] = '2.2.8'
+default[:nginx][:modsecurity][:crs][:SecGeoLookupDb] = '/var/lib/modsecurity/GeoLiteCity.dat'
+# Only put the rule name, leave out the extension
+default[:nginx][:modsecurity][:crs][:optional_rules] = []
+default[:nginx][:modsecurity][:crs][:experimental_rules] = []
+default[:nginx][:modsecurity][:crs][:slr_rules] = []
