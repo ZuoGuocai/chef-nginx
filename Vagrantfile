@@ -15,8 +15,7 @@ Vagrant.configure("2") do |config|
             "optional_rules" => [ "modsecurity_crs_46_av_scanning", "modsecurity_crs_42_comment_spam" ],
             "slr_rules" => [ "modsecurity_crs_46_slr_et_rfi_attacks", "modsecurity_crs_46_slr_et_sqli_attacks" ],
             "experimental_rules" => [ "modsecurity_crs_40_http_parameter_pollution" ]
-          },
-          "enable" => true
+          }
         }
       }
     }

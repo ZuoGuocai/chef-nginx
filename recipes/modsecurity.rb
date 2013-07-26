@@ -39,18 +39,12 @@ remote_file '/var/lib/modsecurity/GeoLiteCity.dat.gz' do
   group 'root'
   mode 0640
   source 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz'
-  not_if { File.exists?('/var/lib/modsecurity/GeoLiteCity.dat.gz') }
+  not_if { File.exists?('/var/lib/modsecurity/GeoLiteCity.dat') }
 end
 
 execute 'decompress geolitecity' do
   command 'gzip -fd /var/lib/modsecurity/GeoLiteCity.dat.gz'
   only_if { File.exists?('/var/lib/modsecurity/GeoLiteCity.dat.gz') }
-end
-
-# CRS 
-template '/etc/nginx/modsecurity.d/modsecurity_crs_10_setup.conf' do
-  mode 0640
-  notifies :restart, 'service[nginx]'
 end
 
 package 'git'
@@ -60,14 +54,21 @@ git '/etc/nginx/modsecurity.d' do
   reference node[:nginx][:modsecurity][:crs][:version]
 end
 
+# CRS 
+template '/etc/nginx/modsecurity.d/modsecurity_crs_10_setup.conf' do
+  mode 0640
+  notifies :restart, 'service[nginx]'
+end
+
 # Use all base rules
-ruby_block 'symlink all base rules' do
+ruby_block 'symlink base rules' do
   block do
     Dir.entries('/etc/nginx/modsecurity.d/base_rules/').each do |f|
-      link "/etc/nginx/modsecurity.d/activated_rules/#{f}" do
-        to "/etc/nginx/modsecurity.d/base_rules/#{f}"
-        notifies :restart, 'service[nginx]'
-        only_if { f =~ /\.(conf|data)$/ }
+      if f =~ /\.(conf|data)$/
+        s = Chef::Resource::Link.new("/etc/nginx/modsecurity.d/activated_rules/#{f}", run_context)
+        s.to "/etc/nginx/modsecurity.d/base_rules/#{f}"
+        s.run_action :create
+        Chef::Resource::Notification.new("service[nginx]", :restart, :delayed)
       end
     end
   end

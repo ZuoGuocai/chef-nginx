@@ -28,6 +28,7 @@ if node[:platform_family] == 'rhel'
 
   package 'nginx' do
     version node[:nginx][:version]
+    options '--nogpgcheck'
   end
 
   # Clean up distrib examples. Move default site
