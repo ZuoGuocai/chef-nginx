@@ -16,6 +16,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+template '/etc/nginx/modsecurity.conf' do
+  owner 'nginx'
+  group 'root'
+  mode 0640
+  notifies :restart, 'service[nginx]'
+end
+
 # Intercepted files
 directory node[:nginx][:modsecurity][:SecUploadDir] do
   recursive true

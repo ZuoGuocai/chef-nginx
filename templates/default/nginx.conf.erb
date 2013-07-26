@@ -29,4 +29,10 @@ http {
   include             /etc/nginx/conf.d/*.conf;
   # Vhosts
   include             /etc/nginx/vhosts.d/*.conf;
+
+  <% if node[:nginx][:modsecurity][:enable] == true %>
+  # modsecurity
+  ModSecurityEnabled on;
+  ModSecurityConfig modsecurity.conf;
+  <% end %>
 }

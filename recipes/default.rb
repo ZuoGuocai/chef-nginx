@@ -75,7 +75,7 @@ if node[:platform_family] == 'rhel'
     action [ :start, :enable ]
   end
 
-  if node[:nginx][:modsecurity][:crs][:enable] == true
+  if node[:nginx][:modsecurity][:enable] == true
     include_recipe 'nginx::modsecurity'
   end
 
