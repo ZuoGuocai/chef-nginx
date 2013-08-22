@@ -8,7 +8,7 @@ default[:nginx][:version] = '1.4.1-5.el6.modsec'
 default[:nginx][:configure][:repo] = true
 
 # modsecurity
-default[:nginx][:modsecurity][:enable] = true
+default[:nginx][:modsecurity][:enable] = false
 default[:nginx][:modsecurity][:SecRuleEngine] = 'On'
 default[:nginx][:modsecurity][:SecRequestBodyAccess] = 'On'
 default[:nginx][:modsecurity][:SecRequestBodyLimit] = 13107200
@@ -33,7 +33,7 @@ default[:nginx][:modsecurity][:SecUploadDir] = '/var/lib/modsecurity/upload'
 default[:nginx][:modsecurity][:SecAuditLogStorageDir] = '/var/lib/modsecurity/audit'
 
 # modsecurity - CRS
-default[:nginx][:modsecurity][:crs][:enable] = true
+default[:nginx][:modsecurity][:crs][:enable] = false
 default[:nginx][:modsecurity][:crs][:repo] = 'https://github.com/SpiderLabs/owasp-modsecurity-crs.git'
 default[:nginx][:modsecurity][:crs][:version] = '2.2.8'
 default[:nginx][:modsecurity][:crs][:SecGeoLookupDb] = '/var/lib/modsecurity/GeoLiteCity.dat'
