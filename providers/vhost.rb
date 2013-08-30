@@ -4,9 +4,11 @@ def initialize(*args)
 end
 
 action :enable do
-  directory "#{node[:nginx][:doc_root] }/#{new_resource.name}" do
-    owner 'nginx'
-    group 'nginx'
+  if new_resource.docroot == true
+    directory "#{node[:nginx][:doc_root] }/#{new_resource.name}" do
+      owner 'nginx'
+      group 'nginx'
+    end
   end
 
   template "/etc/nginx/vhosts.d/#{new_resource.name}.conf" do
