@@ -26,7 +26,8 @@ if node[:platform_family] == 'rhel'
     only_if { node[:nginx][:configure][:repo] == true }
   end
 
-  package 'nginx' do
+  yum_package 'nginx' do
+    allow_downgrade true
     version node[:nginx][:version]
     options '--nogpgcheck'
   end
