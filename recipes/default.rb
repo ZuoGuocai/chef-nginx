@@ -63,6 +63,13 @@ if node[:platform_family] == 'rhel'
     mode 0750
   end
 
+  # logs
+  directory '/var/log/nginx' do
+    owner 'nginx'
+    group 'nginx'
+    mode 0750
+  end
+
   # Default vhost
   nginx_vhost 'default' do
     if node[:nginx][:default_vhost][:enable] == true
