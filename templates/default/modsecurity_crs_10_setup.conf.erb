@@ -40,8 +40,7 @@ SecComponentSignature "OWASP_CRS/2.2.8"
 # Ref: http://blog.spiderlabs.com/2010/11/advanced-topic-of-the-week-traditional-vs-anomaly-scoring-detection-modes.html
 # Ref: https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual#wiki-SecDefaultAction
 #
-SecDefaultAction "phase:1,deny,log"
-
+SecDefaultAction "phase:2,pass,log"
 # -- [[ Collaborative Detection Severity Levels ]] ----------------------------------------
 #
 # These are the default scoring points for each severity level.  You may

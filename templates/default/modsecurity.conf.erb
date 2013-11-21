@@ -156,7 +156,7 @@ SecDebugLogLevel <%= node[:nginx][:modsecurity][:SecDebugLogLevel] %>
 # level response status codes).
 #
 SecAuditEngine <%= node[:nginx][:modsecurity][:SecAuditEngine] %>
-SecAuditLogRelevantStatus "^(?:5|4(?!04))"
+SecAuditLogRelevantStatus "^(?:5|40(?:1|3))"
 
 # Log everything we know about a transaction.
 SecAuditLogParts <%= node[:nginx][:modsecurity][:SecAuditLogParts] %>
