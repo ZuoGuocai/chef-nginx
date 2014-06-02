@@ -1,15 +1,15 @@
 Vagrant.configure("2") do |config|
   config.vm.hostname = "nginx-berkshelf"
-  config.vm.box = "centos64-64-chef11"
-  config.vm.box_url = "http://static.theroux.ca/vagrant/boxes/centos64-64-chef11.box"
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
+  config.vm.box = "opscode-centos-6.5"
+  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
   config.berkshelf.enabled = true
+  config.omnibus.chef_version = :latest
   config.vm.network :forwarded_port, guest: 80, host: 8080
 
   config.vm.provision :chef_solo do |chef|
     chef.json = {
       "nginx" => {
+        "version" => "1.7.1-5.el6.modsec",
         "modsecurity" => {
           "crs" => {
             "optional_rules" => [ "modsecurity_crs_46_av_scanning", "modsecurity_crs_42_comment_spam" ],
@@ -21,8 +21,8 @@ Vagrant.configure("2") do |config|
     }
 
     chef.run_list = [
-        "recipe[minitest-handler::default]",
-        "recipe[nginx::default]"
+      "recipe[minitest-handler::default]",
+      "recipe[nginx::default]"
     ]
   end
 end
