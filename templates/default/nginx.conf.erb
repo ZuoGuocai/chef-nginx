@@ -1,18 +1,18 @@
 user                  nginx;
-worker_processes      <%= node[:nginx][:workers] %>; 
+worker_processes      <%= node['nginx']['workers'] %>;
 
 error_log             /var/log/nginx/error.log warn;
 pid                   /var/run/nginx.pid;
 
 events {
-  worker_connections  <%= node[:nginx][:worker_conns] %>;
+  worker_connections  <%= node['nginx']['worker_conns'] %>;
 }
 
 
 http {
   include             /etc/nginx/mime.types;
   default_type        application/octet-stream;
-  server_names_hash_bucket_size 64; 
+  server_names_hash_bucket_size 64;
 
   log_format main     '$remote_addr - $remote_user [$time_local] "$request" '
                       '$status $body_bytes_sent "$http_referer" '
@@ -24,14 +24,14 @@ http {
 
   keepalive_timeout   65;
 
-  gzip                <%= node[:nginx][:gzip] %>;
+  gzip                <%= node['nginx']['gzip'] %>;
 
   # Modules/plugins/etc configs
   include             /etc/nginx/conf.d/*.conf;
   # Vhosts
   include             /etc/nginx/vhosts.d/*.conf;
 
-  <% if node[:nginx][:modsecurity][:enable] == true %>
+  <% if node['nginx']['modsecurity']['enable'] %>
   # modsecurity
   ModSecurityEnabled on;
   ModSecurityConfig modsecurity.conf;

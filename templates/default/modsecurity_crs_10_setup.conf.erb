@@ -140,7 +140,7 @@ SecAction \
 # Ref: http://blog.spiderlabs.com/2010/10/detecting-malice-with-modsecurity-geolocation-data.html
 # Ref: http://blog.spiderlabs.com/2010/11/detecting-malice-with-modsecurity-ip-forensics.html
 #
-SecGeoLookupDb <%= node[:nginx][:modsecurity][:crs][:SecGeoLookupDb] %>
+SecGeoLookupDb <%= node['nginx']['modsecurity']['crs']['SecGeoLookupDb'] %>
 
 #
 # -- [[ Regression Testing Mode ]] --------------------------------------------------------
