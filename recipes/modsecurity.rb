@@ -24,7 +24,7 @@ template '/etc/nginx/modsecurity.conf' do
 end
 
 # Intercepted files
-directory node[:nginx][:modsecurity][:SecUploadDir] do
+directory node['nginx']['modsecurity']['SecUploadDir'] do
   recursive true
   owner 'nginx'
   group 'root'
@@ -32,7 +32,7 @@ directory node[:nginx][:modsecurity][:SecUploadDir] do
 end
 
 # Audit logs
-directory node[:nginx][:modsecurity][:SecAuditLogStorageDir] do
+directory node['nginx']['modsecurity']['SecAuditLogStorageDir'] do
   recursive true
   owner 'nginx'
   group 'root'
@@ -46,22 +46,22 @@ remote_file '/var/lib/modsecurity/GeoLiteCity.dat.gz' do
   group 'root'
   mode 0640
   source 'http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz'
-  not_if { File.exists?('/var/lib/modsecurity/GeoLiteCity.dat') }
+  not_if { File.exist?('/var/lib/modsecurity/GeoLiteCity.dat') }
 end
 
 execute 'decompress geolitecity' do
   command 'gzip -fd /var/lib/modsecurity/GeoLiteCity.dat.gz'
-  only_if { File.exists?('/var/lib/modsecurity/GeoLiteCity.dat.gz') }
+  only_if { File.exist?('/var/lib/modsecurity/GeoLiteCity.dat.gz') }
 end
 
 package 'git'
 
 git '/etc/nginx/modsecurity.d' do
-  repository node[:nginx][:modsecurity][:crs][:repo]
-  reference node[:nginx][:modsecurity][:crs][:version]
+  repository node['nginx']['modsecurity']['crs']['repo']
+  reference node['nginx']['modsecurity']['crs']['version']
 end
 
-# CRS 
+# CRS
 template '/etc/nginx/modsecurity.d/modsecurity_crs_10_setup.conf' do
   mode 0640
   notifies :restart, 'service[nginx]'
@@ -75,7 +75,7 @@ ruby_block 'symlink base rules' do
         s = Chef::Resource::Link.new("/etc/nginx/modsecurity.d/activated_rules/#{f}", run_context)
         s.to "/etc/nginx/modsecurity.d/base_rules/#{f}"
         s.run_action :create
-        Chef::Resource::Notification.new("service[nginx]", :restart, :delayed)
+        Chef::Resource::Notification.new('service[nginx]', :restart, :delayed)
       end
     end
   end
@@ -83,7 +83,7 @@ end
 
 # its too bad they all use different naming conventions..
 # optional rules
-node[:nginx][:modsecurity][:crs][:optional_rules].each do |r|
+node['nginx']['modsecurity']['crs']['optional_rules'].each do |r|
   link "/etc/nginx/modsecurity.d/activated_rules/#{r}.conf" do
     to "/etc/nginx/modsecurity.d/optional_rules/#{r}.conf"
     notifies :restart, 'service[nginx]'
@@ -91,12 +91,12 @@ node[:nginx][:modsecurity][:crs][:optional_rules].each do |r|
   link "/etc/nginx/modsecurity.d/activated_rules/#{r.gsub(/_crs/, '')}.data" do
     to "/etc/nginx/modsecurity.d/optional_rules/#{r.gsub(/_crs/, '')}.data"
     notifies :restart, 'service[nginx]'
-    only_if { File.exists?("/etc/nginx/modsecurity.d/optional_rules/#{r.gsub(/_crs/, '')}.data") }
+    only_if { File.exist?("/etc/nginx/modsecurity.d/optional_rules/#{r.gsub(/_crs/, '')}.data") }
   end
 end
 
 # slr rules
-node[:nginx][:modsecurity][:crs][:slr_rules].each do |r|
+node['nginx']['modsecurity']['crs']['slr_rules'].each do |r|
   link "/etc/nginx/modsecurity.d/activated_rules/#{r}.conf" do
     to "/etc/nginx/modsecurity.d/slr_rules/#{r}.conf"
     notifies :restart, 'service[nginx]'
@@ -104,12 +104,12 @@ node[:nginx][:modsecurity][:crs][:slr_rules].each do |r|
   link "/etc/nginx/modsecurity.d/activated_rules/#{r.gsub(/_crs/, '').gsub(/_attacks/, '')}.data" do
     to "/etc/nginx/modsecurity.d/slr_rules/#{r.gsub(/_crs/, '').gsub(/_attacks/, '')}.data"
     notifies :restart, 'service[nginx]'
-    only_if { File.exists?("/etc/nginx/modsecurity.d/slr_rules/#{r.gsub(/_crs/, '').gsub(/_attacks/, '')}.data") }
+    only_if { File.exist?("/etc/nginx/modsecurity.d/slr_rules/#{r.gsub(/_crs/, '').gsub(/_attacks/, '')}.data") }
   end
 end
 
 # experimental rules
-node[:nginx][:modsecurity][:crs][:experimental_rules].each do |r|
+node['nginx']['modsecurity']['crs']['experimental_rules'].each do |r|
   link "/etc/nginx/modsecurity.d/activated_rules/#{r}.conf" do
     to "/etc/nginx/modsecurity.d/experimental_rules/#{r}.conf"
     notifies :restart, 'service[nginx]'

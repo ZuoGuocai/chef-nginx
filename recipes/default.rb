@@ -16,19 +16,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-if node[:platform_family] == 'rhel'
+if node['platform_family'] == 'rhel'
   include_recipe 'yum'
 
   yum_repository 'failshell' do
     name 'failshell'
     description 'Packages built by Jean-Francois Theroux'
     url 'http://static.theroux.ca/repository/el/6/$basearch'
-    only_if { node[:nginx][:configure][:repo] == true }
+    only_if { node['nginx']['configure']['repo'] }
   end
 
   yum_package 'nginx' do
     allow_downgrade true
-    version node[:nginx][:version]
+    version node['nginx']['version']
     options '--nogpgcheck'
   end
 
@@ -53,7 +53,7 @@ if node[:platform_family] == 'rhel'
   end
 
   # Doc root
-  directory node[:nginx][:doc_root] do
+  directory node['nginx']['doc_root'] do
     owner 'nginx'
     group 'nginx'
   end
@@ -72,7 +72,7 @@ if node[:platform_family] == 'rhel'
 
   # Default vhost
   nginx_vhost 'default' do
-    if node[:nginx][:default_vhost][:enable] == true
+    if node['nginx']['default_vhost']['enable']
       action :enable
     else
       action :disable
@@ -80,12 +80,10 @@ if node[:platform_family] == 'rhel'
   end
 
   service 'nginx' do
-    action [ :start, :enable ]
+    action [:start, :enable]
   end
 
-  if node[:nginx][:modsecurity][:enable] == true
-    include_recipe 'nginx::modsecurity'
-  end
+  include_recipe 'nginx::modsecurity' if node['nginx']['modsecurity']['enable']
 
 else
   log('Your distribution is not supported.')

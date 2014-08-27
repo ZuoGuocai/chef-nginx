@@ -4,7 +4,7 @@ def initialize(*args)
 end
 
 action :enable do
-  directory "#{node[:nginx][:doc_root] }/#{new_resource.name}" do
+  directory "#{node['nginx']['doc_root'] }/#{new_resource.name}" do
     owner 'nginx'
     group 'nginx'
     only_if { new_resource.docroot == true }
