@@ -26,6 +26,9 @@ http {
 
   gzip                <%= node['nginx']['gzip'] %>;
 
+  # SSL
+  ssl_protocols <%= node['nginx']['ssl']['protocols'] %>;
+
   # Modules/plugins/etc configs
   include             /etc/nginx/conf.d/*.conf;
   # Vhosts

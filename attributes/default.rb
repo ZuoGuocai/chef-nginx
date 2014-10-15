@@ -7,6 +7,9 @@ default['nginx']['doc_root'] = '/var/www'
 default['nginx']['version'] = '1.7.4-4.el6.modsec'
 default['nginx']['configure']['repo'] = true
 
+# SSL
+default['nginx']['ssl']['protocols'] = 'TLSv1 TLSv1.1 TLSv1.2'
+
 # modsecurity
 default['nginx']['modsecurity']['enable'] = false
 default['nginx']['modsecurity']['SecRuleEngine'] = 'On'

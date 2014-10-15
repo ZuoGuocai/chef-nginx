@@ -93,4 +93,9 @@ describe 'nginx' do
     expect(service 'nginx').to be_enabled
     expect(service 'nginx').to be_running
   end
+
+  # SSL configuration
+  it 'Has the proper SSL protocols enabled' do
+    expect(file '/etc/nginx/nginx.conf').to contain 'ssl_protocols TLSv1 TLSv1.1 TLSv1.2;'
+  end
 end
