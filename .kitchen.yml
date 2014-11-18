@@ -15,10 +15,8 @@ suites:
   - name: nginx
     run_list:
       - recipe[nginx::default]
-    attributes: {
-      nginx: {
-        modsecurity: {
+    attributes:
+      nginx:
+        modsecurity:
           enable: true
-        }
-      }
-    }
+   
